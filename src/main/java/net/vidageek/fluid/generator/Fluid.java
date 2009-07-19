@@ -1,6 +1,5 @@
 package net.vidageek.fluid.generator;
 
-import net.vidageek.fluid.fixtures.ClassFixture;
 
 /**
  * @author jonasabreu
@@ -8,10 +7,10 @@ import net.vidageek.fluid.fixtures.ClassFixture;
  */
 final public class Fluid {
 
-    private final Class<ClassFixture> type;
+    private final Class<?> type;
     private final String packageName;
 
-    public Fluid(final Class<ClassFixture> type, final String packageName) {
+    public Fluid(final Class<?> type, final String packageName) {
         this.packageName = packageName;
         if (type == null) {
             throw new IllegalArgumentException("type cannot be null");
