@@ -13,7 +13,7 @@ final public class FluidPackage implements FluidElement {
     }
 
     public String asString() {
-        return "package " + packageName + ";";
+        return "package " + packageName.trim() + ";\n\n";
     }
 
 }
