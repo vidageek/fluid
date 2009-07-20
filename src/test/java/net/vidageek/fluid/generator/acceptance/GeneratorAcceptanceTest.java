@@ -10,6 +10,7 @@ import net.vidageek.fluid.fixtures.ClassFixtureNamed;
 import net.vidageek.fluid.fixtures.ComplexFixture;
 import net.vidageek.fluid.generator.Fluid;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -36,6 +37,7 @@ final public class GeneratorAcceptanceTest {
         Assert.assertEquals("Fluid Generator isn't working with name annotations", comparisonCode, code);
     }
 
+    @Ignore
     @Test
     public void testThatGeneratorWorksWithDifferentTypes() throws Throwable {
         String code = new Fluid(ComplexFixture.class, "net.vidageek.fluid.fixtures.output").generateInterface();

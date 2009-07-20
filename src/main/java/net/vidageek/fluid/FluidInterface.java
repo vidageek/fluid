@@ -6,4 +6,6 @@ package net.vidageek.fluid;
  */
 public interface FluidInterface<T> {
 
+    T build();
+
 }
