@@ -7,6 +7,7 @@ import java.util.Scanner;
 import junit.framework.Assert;
 import net.vidageek.fluid.fixtures.ClassFixture;
 import net.vidageek.fluid.fixtures.ClassFixtureNamed;
+import net.vidageek.fluid.fixtures.ComplexFixture;
 import net.vidageek.fluid.generator.Fluid;
 
 import org.junit.Test;
@@ -33,6 +34,15 @@ final public class GeneratorAcceptanceTest {
         String comparisonCode = readFileFor(net.vidageek.fluid.fixtures.output.AnyClassName.class);
 
         Assert.assertEquals("Fluid Generator isn't working with name annotations", comparisonCode, code);
+    }
+
+    @Test
+    public void testThatGeneratorWorksWithDifferentTypes() throws Throwable {
+        String code = new Fluid(ComplexFixture.class, "net.vidageek.fluid.fixtures.output").generateInterface();
+
+        String comparisonCode = readFileFor(net.vidageek.fluid.fixtures.output.ComplexFixture.class);
+
+        Assert.assertEquals("Fluid Generator isn't working for complex types", comparisonCode, code);
     }
 
     private String readFileFor(final Class<?> type) throws FileNotFoundException {
