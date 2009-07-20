@@ -8,6 +8,7 @@ import junit.framework.Assert;
 import net.vidageek.fluid.fixtures.ClassFixture;
 import net.vidageek.fluid.fixtures.ClassFixtureNamed;
 import net.vidageek.fluid.fixtures.ComplexFixture;
+import net.vidageek.fluid.fixtures.modelo.Parent;
 import net.vidageek.fluid.generator.Fluid;
 
 import org.junit.Ignore;
@@ -45,6 +46,17 @@ final public class GeneratorAcceptanceTest {
         String comparisonCode = readFileFor(net.vidageek.fluid.fixtures.output.ComplexFixture.class);
 
         Assert.assertEquals("Fluid Generator isn't working for complex types", comparisonCode, code);
+    }
+
+    @Test
+    public void testThatTestInterfacesAreCorrect() throws Throwable {
+        String code = new Fluid(Parent.class, "net.vidageek.fluid.fixtures.modelo.output").generateInterface();
+
+        System.out.println(code);
+
+        String comparisonCode = readFileFor(net.vidageek.fluid.fixtures.modelo.output.Parent.class);
+
+        Assert.assertEquals("Some interface was broken. ", comparisonCode, code);
     }
 
     private String readFileFor(final Class<?> type) throws FileNotFoundException {
