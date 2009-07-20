@@ -24,9 +24,9 @@ final public class InterfaceMethod implements FluidElement {
         if (Collection.class.isAssignableFrom(field.getType())) {
             Class<?> type = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
 
-            method = generateMethod(fieldName, interfaceName, type, "add");
+            method = generateMethod(field.getName(), fieldName, interfaceName, type, "add");
         } else {
-            method = generateMethod(fieldName, interfaceName, field.getType(), "with");
+            method = generateMethod(field.getName(), fieldName, interfaceName, field.getType(), "with");
         }
     }
 
@@ -34,12 +34,12 @@ final public class InterfaceMethod implements FluidElement {
         return method;
     }
 
-    private String generateMethod(final String fieldName, final InterfaceName interfaceName, final Class<?> type,
-            final String word) {
+    private String generateMethod(final String originalFieldName, final String fieldName,
+            final InterfaceName interfaceName, final Class<?> type, final String prefix) {
 
         String code = "";
-        code += "    @" + FluidField.class.getName() + "(\"" + fieldName + "\")\n";
-        code += "    " + interfaceName.asString() + " " + word + capitalize(fieldName) + "(" + type.getName() + " "
+        code += "    @" + FluidField.class.getName() + "(\"" + originalFieldName + "\")\n";
+        code += "    " + interfaceName.asString() + " " + prefix + capitalize(fieldName) + "(" + type.getName() + " "
                 + fieldName + ");\n\n";
         return code;
     }
