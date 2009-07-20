@@ -1,22 +1,24 @@
 package net.vidageek.fluid.generator;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.vidageek.mirror.dsl.Mirror;
 
 /**
  * @author jonasabreu
  * 
  */
-final public class FluidInterface implements FluidElement {
+final public class InterfaceMethodList implements FluidElement {
 
     private final List<FluidElement> elements;
 
-    public FluidInterface(final Class<?> type, final String packageName) {
+    public InterfaceMethodList(final Class<?> type, final InterfaceName interfaceName) {
         elements = new ArrayList<FluidElement>();
-        elements.add(new FluidPackage(packageName));
-        elements.add(new InterfaceHeader(new InterfaceName(type), type));
-        elements.add(new InterfaceMethodList(type, new InterfaceName(type)));
-        elements.add(new InterfaceFooter());
+        for (Field field : new Mirror().on(type).reflectAll().fields()) {
+            elements.add(new InterfaceMethod(field, interfaceName));
+        }
     }
 
     public String asString() {

@@ -32,4 +32,10 @@ final public class FluidTest {
         String code = new Fluid(ClassFixture.class, "net.vidageek.test").generateInterface();
         Assert.assertTrue("code should have package declaration", code.startsWith("package net.vidageek.test;"));
     }
+
+    @Test
+    public void testThatAddsEndingCurlyBraces() {
+        String code = new Fluid(ClassFixture.class, "net.vidageek.test").generateInterface();
+        Assert.assertTrue("code should have ending curly braces", code.endsWith("}"));
+    }
 }
