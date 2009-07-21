@@ -2,6 +2,7 @@ package net.vidageek.fluid.generator.acceptance;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashSet;
 import java.util.Scanner;
 
 import junit.framework.Assert;
@@ -11,7 +12,6 @@ import net.vidageek.fluid.fixtures.ComplexFixture;
 import net.vidageek.fluid.fixtures.modelo.Parent;
 import net.vidageek.fluid.generator.Fluid;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -22,7 +22,8 @@ final public class GeneratorAcceptanceTest {
 
     @Test
     public void testThatGeneratorWorksWithoutNameAnnotations() throws Throwable {
-        String code = new Fluid(ClassFixture.class, "net.vidageek.fluid.fixtures.output").generateInterface();
+        String code = new Fluid(ClassFixture.class, "net.vidageek.fluid.fixtures.output")
+                                                                                         .generateInterface(new HashSet<Class<?>>());
 
         String comparisonCode = readFileFor(net.vidageek.fluid.fixtures.output.ClassFixture.class);
 
@@ -31,17 +32,21 @@ final public class GeneratorAcceptanceTest {
 
     @Test
     public void testThatGeneratorWorksWithNameAnnotations() throws Throwable {
-        String code = new Fluid(ClassFixtureNamed.class, "net.vidageek.fluid.fixtures.output").generateInterface();
+        String code = new Fluid(ClassFixtureNamed.class, "net.vidageek.fluid.fixtures.output")
+                                                                                              .generateInterface(new HashSet<Class<?>>());
 
         String comparisonCode = readFileFor(net.vidageek.fluid.fixtures.output.AnyClassName.class);
 
         Assert.assertEquals("Fluid Generator isn't working with name annotations", comparisonCode, code);
     }
 
-    @Ignore
     @Test
     public void testThatGeneratorWorksWithDifferentTypes() throws Throwable {
-        String code = new Fluid(ComplexFixture.class, "net.vidageek.fluid.fixtures.output").generateInterface();
+        HashSet<Class<?>> types = new HashSet<Class<?>>();
+        types.add(ComplexFixture.class);
+        types.add(ClassFixture.class);
+
+        String code = new Fluid(ComplexFixture.class, "net.vidageek.fluid.fixtures.output").generateInterface(types);
 
         String comparisonCode = readFileFor(net.vidageek.fluid.fixtures.output.ComplexFixture.class);
 
@@ -50,7 +55,8 @@ final public class GeneratorAcceptanceTest {
 
     @Test
     public void testThatTestInterfacesAreCorrect() throws Throwable {
-        String code = new Fluid(Parent.class, "net.vidageek.fluid.fixtures.modelo.output").generateInterface();
+        String code = new Fluid(Parent.class, "net.vidageek.fluid.fixtures.modelo.output")
+                                                                                          .generateInterface(new HashSet<Class<?>>());
 
         System.out.println(code);
 

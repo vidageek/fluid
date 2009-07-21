@@ -1,5 +1,7 @@
 package net.vidageek.fluid.generator;
 
+import java.util.HashSet;
+
 import junit.framework.Assert;
 import net.vidageek.fluid.fixtures.ClassFixture;
 
@@ -23,19 +25,19 @@ final public class FluidTest {
 
     @Test
     public void testThatGeneratesInterfaceName() {
-        String code = new Fluid(ClassFixture.class, "").generateInterface();
+        String code = new Fluid(ClassFixture.class, "").generateInterface(new HashSet<Class<?>>());
         Assert.assertTrue("code should hava interface declaration", code.contains("interface ClassFixture"));
     }
 
     @Test
     public void testThatAddsPackage() {
-        String code = new Fluid(ClassFixture.class, "net.vidageek.test").generateInterface();
+        String code = new Fluid(ClassFixture.class, "net.vidageek.test").generateInterface(new HashSet<Class<?>>());
         Assert.assertTrue("code should have package declaration", code.startsWith("package net.vidageek.test;"));
     }
 
     @Test
     public void testThatAddsEndingCurlyBraces() {
-        String code = new Fluid(ClassFixture.class, "net.vidageek.test").generateInterface();
+        String code = new Fluid(ClassFixture.class, "net.vidageek.test").generateInterface(new HashSet<Class<?>>());
         Assert.assertTrue("code should have ending curly braces", code.endsWith("}"));
     }
 }
