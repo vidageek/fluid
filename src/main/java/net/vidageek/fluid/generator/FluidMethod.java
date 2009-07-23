@@ -21,16 +21,24 @@ public class FluidMethod {
     public FluidMethod(final Class<?> model, final Field field, final HashSet<Class<?>> types) {
         originalField = field.getName();
 
-        String name = List.class.isAssignableFrom(field.getType()) ? "add" : "with";
-        methodName = name + capitalize(getFieldName(field));
+        methodName = generatesMethodName(field);
 
         param = generatesParameter(field, types);
 
+        returnType = generatesReturnType(model, field, types);
+    }
+
+    private String generatesMethodName(final Field field) {
+        String name = List.class.isAssignableFrom(field.getType()) ? "add" : "with";
+        return name + capitalize(getFieldName(field));
+    }
+
+    private String generatesReturnType(final Class<?> model, final Field field, final HashSet<Class<?>> types) {
         String ret = new FluidType(model, "", types).getInterfaceName() + "<T>";
         if (types.contains(field.getType())) {
             ret = new FluidType(field.getType(), "", types).getInterfaceName() + "<" + ret + ">";
         }
-        returnType = ret;
+        return ret;
     }
 
     private String generatesParameter(final Field field, final HashSet<Class<?>> types) {
