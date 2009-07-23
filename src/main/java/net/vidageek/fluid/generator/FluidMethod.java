@@ -52,9 +52,13 @@ public class FluidMethod {
             type = field.getAnnotation(FluidDataType.class).value();
         }
         if (!types.contains(type)) {
-            parameter = type.getName() + " " + getFieldName(field);
+            parameter = (type.isArray() ? nameFromArray(type) : type.getName()) + " " + getFieldName(field);
         }
         return parameter;
+    }
+
+    private String nameFromArray(final Class<?> type) {
+        return "byte[]";
     }
 
     private String getFieldName(final Field field) {
