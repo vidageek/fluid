@@ -1,30 +1,34 @@
 package net.vidageek.fluid.generator;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+
+import net.vidageek.fluid.annotations.FluidClass;
+import net.vidageek.fluid.annotations.FluidField;
 
 /**
  * @author jonasabreu
  * 
  */
-final public class FluidInterface implements FluidElement {
+final public class FluidInterface {
 
-    private final List<FluidElement> elements;
+    private final FluidType type;
 
-    public FluidInterface(final Class<?> type, final String packageName, final HashSet<Class<?>> types) {
-        elements = new ArrayList<FluidElement>();
-        elements.add(new FluidPackage(packageName));
-        elements.add(new InterfaceHeader(new InterfaceName(type), type));
-        elements.add(new InterfaceMethodList(type, new InterfaceName(type), types));
-        elements.add(new InterfaceFooter());
+    public FluidInterface(final Class<?> clazz, final String packageName, final HashSet<Class<?>> types) {
+        type = new FluidType(clazz, packageName, types);
     }
 
     public String asString() {
         String code = "";
-        for (FluidElement element : elements) {
-            code += element.asString();
+        code += "package " + type.getPackage() + ";\n\n";
+        code += "@" + FluidClass.class.getName() + "(" + type.getModelName() + ".class)\n";
+        code += "public interface " + type.getInterfaceName() + "<T> extends " + net.vidageek.fluid.FluidInterface.class.getName() + "<T> {\n\n";
+        
+        for (FluidMethod method : type.getMethods()) {
+            code += "    @" + FluidField.class.getName() + "(\"" + method.getOriginalFieldName() + "\")\n";
+            code += "    " + method.getReturnType() + " " + method.getName() + "(" + method.getParameter() + ");" + "\n\n";
         }
+        
+        code += "}";
         return code;
     }
 
