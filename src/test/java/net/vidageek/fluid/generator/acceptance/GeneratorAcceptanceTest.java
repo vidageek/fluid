@@ -57,9 +57,6 @@ final public class GeneratorAcceptanceTest {
     public void testThatTestInterfacesAreCorrect() throws Throwable {
         String code = new Fluid(Parent.class, "net.vidageek.fluid.fixtures.modelo.output")
                                                                                           .generateInterface(new HashSet<Class<?>>());
-
-        System.out.println(code);
-
         String comparisonCode = readFileFor(net.vidageek.fluid.fixtures.modelo.output.Parent.class);
 
         Assert.assertEquals("Some interface was broken. ", comparisonCode, code);
