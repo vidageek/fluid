@@ -1,8 +1,11 @@
 package net.vidageek.fluid.proxy;
 
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 
 import net.vidageek.fluid.annotations.FluidClass;
+import net.vidageek.fluid.proxy.handler.MethodHandler;
 import net.vidageek.mirror.dsl.Mirror;
 
 /**
@@ -12,8 +15,9 @@ import net.vidageek.mirror.dsl.Mirror;
 final public class FluidProxyCreator<T> {
 
     private final Class<T> type;
+    private final List<MethodHandler> userHandlers;
 
-    public FluidProxyCreator(final Class<T> type) {
+    public FluidProxyCreator(final Class<T> type, final List<MethodHandler> userHandlers) {
         if (type == null) {
             throw new IllegalArgumentException("type cannot be null");
         }
@@ -24,7 +28,15 @@ final public class FluidProxyCreator<T> {
             throw new IllegalArgumentException("interface " + type.getName() + " should be annotated by "
                     + FluidClass.class.getName());
         }
+        if (userHandlers == null) {
+            throw new IllegalArgumentException("userHandlers cannot be null");
+        }
+        this.userHandlers = userHandlers;
         this.type = type;
+    }
+
+    public FluidProxyCreator(final Class<T> type) {
+        this(type, new ArrayList<MethodHandler>());
     }
 
     public T createProxy() {
@@ -35,7 +47,7 @@ final public class FluidProxyCreator<T> {
     public T createProxy(final Object parent, final Object watchedInstance) {
 
         return (T) Proxy.newProxyInstance(FluidProxyCreator.class.getClassLoader(), new Class<?>[] { type,
-                ObjectCreator.class }, new FluidInvocationHandler(parent, watchedInstance));
+                ObjectCreator.class }, new FluidInvocationHandler(parent, watchedInstance, userHandlers));
     }
 
     private Class<?> recoverType(final Class<T> clazz) {

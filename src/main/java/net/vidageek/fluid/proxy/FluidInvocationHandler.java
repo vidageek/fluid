@@ -21,8 +21,12 @@ final public class FluidInvocationHandler implements InvocationHandler {
 
     private final List<MethodHandler> handlers;
 
-    public FluidInvocationHandler(final Object parent, final Object watchedInstance) {
+    public FluidInvocationHandler(final Object parent, final Object watchedInstance,
+            final List<MethodHandler> userHandlers) {
         handlers = new ArrayList<MethodHandler>();
+
+        handlers.addAll(userHandlers);
+
         handlers.add(new GetInstanceHandler(watchedInstance));
         handlers.add(new BuildHandler(parent));
         handlers.add(new SameReturnProxyHandler(watchedInstance));
