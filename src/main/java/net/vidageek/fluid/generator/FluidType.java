@@ -2,8 +2,8 @@ package net.vidageek.fluid.generator;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.vidageek.fluid.annotations.FluidName;
 import net.vidageek.mirror.dsl.Mirror;
@@ -16,12 +16,12 @@ final public class FluidType {
 
     private final Class<?> model;
     private final String packageName;
-    private final HashSet<Class<?>> types;
+    private final Set<Class<?>> types;
 
-    public FluidType(final Class<?> model, final String packageName, final HashSet<Class<?>> types) {
+    public FluidType(final Class<?> model, final String packageName, final Set<Class<?>> types2) {
         this.model = model;
         this.packageName = packageName;
-        this.types = types;
+        types = types2;
     }
 
     public String getPackage() {

@@ -1,6 +1,6 @@
 package net.vidageek.fluid.generator;
 
-import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author jonasabreu
@@ -22,7 +22,7 @@ final public class Fluid {
         this.type = type;
     }
 
-    public String generateInterface(final HashSet<Class<?>> types) {
+    public String generateInterface(final Set<Class<?>> types) {
 
         return new FluidInterface(type, packageName, types).asString();
     }

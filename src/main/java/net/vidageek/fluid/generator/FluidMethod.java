@@ -2,8 +2,8 @@ package net.vidageek.fluid.generator;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.vidageek.fluid.annotations.FluidDataType;
 import net.vidageek.fluid.annotations.FluidName;
@@ -19,7 +19,7 @@ public class FluidMethod {
     private final String methodName;
     private final String param;
 
-    public FluidMethod(final Class<?> model, final Field field, final HashSet<Class<?>> types) {
+    public FluidMethod(final Class<?> model, final Field field, final Set<Class<?>> types) {
         originalField = field.getName();
 
         methodName = generatesMethodName(field);
@@ -34,7 +34,7 @@ public class FluidMethod {
         return name + capitalize(getFieldName(field));
     }
 
-    private String generatesReturnType(final Class<?> model, final Field field, final HashSet<Class<?>> types) {
+    private String generatesReturnType(final Class<?> model, final Field field, final Set<Class<?>> types) {
         String ret = new FluidType(model, "", types).getInterfaceName() + "<T>";
         if (types.contains(field.getType())) {
             ret = new FluidType(field.getType(), "", types).getInterfaceName() + "<" + ret + ">";
@@ -42,7 +42,7 @@ public class FluidMethod {
         return ret;
     }
 
-    private String generatesParameter(final Field field, final HashSet<Class<?>> types) {
+    private String generatesParameter(final Field field, final Set<Class<?>> types) {
         String parameter = "";
         Class<?> type = field.getType();
         if (List.class.isAssignableFrom(type)) {
