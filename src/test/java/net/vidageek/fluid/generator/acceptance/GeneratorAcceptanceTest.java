@@ -41,6 +41,16 @@ final public class GeneratorAcceptanceTest {
     }
 
     @Test
+    public void testThatGeneratorWorksWithDataTypeAnnotations() throws Throwable {
+        String code = new Fluid(net.vidageek.fluid.fixtures.ClassFixtureTyped.class,
+                "net.vidageek.fluid.fixtures.output").generateInterface(new HashSet<Class<?>>());
+
+        String comparisonCode = readFileFor(net.vidageek.fluid.fixtures.output.ClassFixtureTyped.class);
+
+        Assert.assertEquals("Fluid Generator isn't working with data type annotations", comparisonCode, code);
+    }
+
+    @Test
     public void testThatGeneratorWorksWithDifferentTypes() throws Throwable {
         HashSet<Class<?>> types = new HashSet<Class<?>>();
         types.add(ComplexFixture.class);

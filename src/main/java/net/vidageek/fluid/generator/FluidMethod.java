@@ -5,6 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.HashSet;
 import java.util.List;
 
+import net.vidageek.fluid.annotations.FluidDataType;
 import net.vidageek.fluid.annotations.FluidName;
 
 /**
@@ -46,6 +47,9 @@ public class FluidMethod {
         Class<?> type = field.getType();
         if (List.class.isAssignableFrom(type)) {
             type = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+        }
+        if (field.isAnnotationPresent(FluidDataType.class)) {
+            type = field.getAnnotation(FluidDataType.class).value();
         }
         if (!types.contains(type)) {
             parameter = type.getName() + " " + getFieldName(field);
