@@ -36,8 +36,12 @@ public class FluidMethod {
 
     private String generatesReturnType(final Class<?> model, final Field field, final Set<Class<?>> types) {
         String ret = new FluidType(model, "", types).getInterfaceName() + "<T>";
-        if (types.contains(field.getType())) {
-            ret = new FluidType(field.getType(), "", types).getInterfaceName() + "<" + ret + ">";
+        Class<?> type = field.getType();
+        if (List.class.isAssignableFrom(type)) {
+            type = getGenericType(field);
+        }
+        if (types.contains(type)) {
+            ret = new FluidType(type, "", types).getInterfaceName() + "<" + ret + ">";
         }
         return ret;
     }
@@ -46,15 +50,23 @@ public class FluidMethod {
         String parameter = "";
         Class<?> type = field.getType();
         if (List.class.isAssignableFrom(type)) {
-            type = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+            type = getGenericType(field);
         }
         if (field.isAnnotationPresent(FluidDataType.class)) {
             type = field.getAnnotation(FluidDataType.class).value();
         }
         if (!types.contains(type)) {
-            parameter = type.getName() + " " + getFieldName(field);
+            String name = type.getName();
+            if (byte[].class.getName().equals(name)) {
+                name = "byte[]";
+            }
+            parameter = name + " " + getFieldName(field);
         }
         return parameter;
+    }
+
+    private Class<?> getGenericType(final Field field) {
+        return (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
     }
 
     private String getFieldName(final Field field) {
