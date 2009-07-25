@@ -63,7 +63,8 @@ public class FluidMethod {
 
     private String nameFromArray(final Class<?> type) {
         return "byte[]";
-    
+    }
+
     private Class<?> getGenericType(final Field field) {
         return (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
     }
