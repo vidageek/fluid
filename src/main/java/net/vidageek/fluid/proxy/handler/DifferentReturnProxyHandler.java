@@ -27,13 +27,13 @@ final public class DifferentReturnProxyHandler implements MethodHandler {
     public Object handle(final Object proxy, final Method method, final Object[] args) {
 
         Object child = new Mirror()
-                                   .on(method.getReturnType().getAnnotation(FluidClass.class).value())
-                                   .invoke()
-                                   .constructor()
-                                   .withoutArgs();
+            .on(method.getReturnType().getAnnotation(FluidClass.class).value())
+            .invoke()
+            .constructor()
+            .withoutArgs();
 
         new Mirror().on(watchedInstance).set().field(method.getAnnotation(FluidField.class).value()).withValue(child);
 
-        return new FluidProxyCreator(method.getReturnType()).createProxy(watchedInstance, child);
+        return new FluidProxyCreator(method.getReturnType()).createProxy(proxy, child);
     }
 }

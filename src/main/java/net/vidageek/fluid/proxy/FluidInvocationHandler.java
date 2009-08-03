@@ -28,7 +28,7 @@ final public class FluidInvocationHandler implements InvocationHandler {
 
     private final List<MethodHandler> handlers;
 
-    public FluidInvocationHandler(final Object parent, final Object watchedInstance,
+    public FluidInvocationHandler(final Object parentProxy, final Object watchedModel,
             final List<MethodHandler> userHandlers, final DataConverterManager manager) {
 
         registerDefaultConverters(manager);
@@ -37,12 +37,12 @@ final public class FluidInvocationHandler implements InvocationHandler {
 
         handlers.addAll(userHandlers);
 
-        handlers.add(new GetInstanceHandler(watchedInstance));
-        handlers.add(new BuildHandler(parent));
-        handlers.add(new SameReturnProxyHandler(watchedInstance, manager));
-        handlers.add(new DifferentReturnProxyHandler(watchedInstance));
-        handlers.add(new SameReturnListProxyHandler(watchedInstance));
-        handlers.add(new DifferentReturnListProxyHandler(watchedInstance));
+        handlers.add(new GetInstanceHandler(watchedModel));
+        handlers.add(new BuildHandler(parentProxy));
+        handlers.add(new SameReturnProxyHandler(watchedModel, manager));
+        handlers.add(new DifferentReturnProxyHandler(watchedModel));
+        handlers.add(new SameReturnListProxyHandler(watchedModel));
+        handlers.add(new DifferentReturnListProxyHandler(watchedModel));
     }
 
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {

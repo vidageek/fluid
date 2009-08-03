@@ -36,14 +36,14 @@ final public class DifferentReturnListProxyHandler implements MethodHandler {
         }
 
         Object child = new Mirror()
-                                   .on(method.getReturnType().getAnnotation(FluidClass.class).value())
-                                   .invoke()
-                                   .constructor()
-                                   .withoutArgs();
+            .on(method.getReturnType().getAnnotation(FluidClass.class).value())
+            .invoke()
+            .constructor()
+            .withoutArgs();
 
         listField.add(child);
 
-        return new FluidProxyCreator(method.getReturnType()).createProxy(watchedInstance, child);
+        return new FluidProxyCreator(method.getReturnType()).createProxy(proxy, child);
     }
 
 }

@@ -51,10 +51,10 @@ final public class FluidProxyCreator<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public T createProxy(final Object parent, final Object watchedInstance) {
+    public T createProxy(final Object parentModel, final Object watchedInstance) {
 
         return (T) Proxy.newProxyInstance(FluidProxyCreator.class.getClassLoader(), new Class<?>[] { type,
-                ObjectCreator.class }, new FluidInvocationHandler(parent, watchedInstance, userHandlers, manager));
+                ObjectCreator.class }, new FluidInvocationHandler(parentModel, watchedInstance, userHandlers, manager));
     }
 
     private Class<?> recoverType(final Class<T> clazz) {
