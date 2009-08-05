@@ -46,8 +46,8 @@ final public class FluidProxyCreator<T> {
         this(type, new ArrayList<MethodHandler>(), new DataConverterManager());
     }
 
-    public T createProxy() {
-        return createProxy(null, new Mirror().on(recoverType(type)).invoke().constructor().withoutArgs());
+    public T createProxy(final Object parent) {
+        return createProxy(parent, new Mirror().on(recoverType(type)).invoke().constructor().withoutArgs());
     }
 
     @SuppressWarnings("unchecked")

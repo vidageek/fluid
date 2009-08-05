@@ -31,7 +31,7 @@ final public class FluidProxyCreatorTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testThatProxyReturnsSameInstance() {
-        Parent<Parent> proxy = new FluidProxyCreator<Parent>(Parent.class).createProxy();
+        Parent<Parent> proxy = new FluidProxyCreator<Parent>(Parent.class).createProxy(null);
         Assert.assertTrue(proxy.addIntegers(2) == proxy.withField(""));
 
     }
